@@ -1,0 +1,85 @@
+{
+  "name": "BUILD2026 assessment",
+  "execution_mode": "cca",
+  "status": "failed",
+  "target": "",
+  "domain": "",
+  "created_at": "2026-05-26T22:49:27.4573884\u002B00:00",
+  "completed_at": "2026-05-26T23:58:53.6730964\u002B00:00",
+  "base_commit": "c45dd90949e505fc40f4419e21bef83151c8d0d1",
+  "apps": {
+    "c7476f89-badd-4b70-b8a0-f6d2abe777c1": {
+      "status": "failed",
+      "error": "Pipeline produced no artifacts for this app."
+    },
+    "88326db5-5d3c-4be7-974c-c42a8ad483e9": {
+      "status": "completed"
+    },
+    "918b1b3a-b9ec-4bdb-8f38-8256d5b85f1d": {
+      "status": "completed"
+    },
+    "b3141a56-b196-47e7-94ca-5be6bfcd26ba": {
+      "status": "completed"
+    },
+    "9695474b-0d67-48ee-8bfb-f9b21668443a": {
+      "status": "completed"
+    },
+    "11c80409-77d4-420e-ac15-fc9753b2d80e": {
+      "status": "completed"
+    },
+    "dedea44a-9920-4283-93e9-772cb731bf67": {
+      "status": "completed"
+    },
+    "4b28cb24-8129-4719-9a36-965cd08c6afa": {
+      "status": "completed"
+    },
+    "c29a504e-7265-414a-8ed5-0f4b4be25642": {
+      "status": "completed"
+    },
+    "25205bde-b66f-43c5-89c8-b14a44963519": {
+      "status": "completed"
+    },
+    "2caabb4e-be88-4a50-8991-e011fd51c9e8": {
+      "status": "completed"
+    },
+    "fd73bef1-3109-4e8b-9a61-a5360d783327": {
+      "status": "completed"
+    },
+    "cba5c283-42b0-4af9-be12-8682b46e6e4b": {
+      "status": "completed"
+    },
+    "a6d2e167-4e60-4959-b077-240c03aefbdf": {
+      "status": "completed"
+    },
+    "62d87068-001b-4390-adce-03ec4d555055": {
+      "status": "completed"
+    },
+    "972ca110-a1f8-4bc0-83ab-76d8563ee4f9": {
+      "status": "completed"
+    },
+    "ed543788-1343-4d58-b604-c18173eea69d": {
+      "status": "completed"
+    },
+    "95d8b779-db0a-41d4-8ee0-782634335db6": {
+      "status": "completed"
+    },
+    "7b57eea1-7a64-438e-bde5-a4bbe4b47782": {
+      "status": "completed"
+    },
+    "53eb2607-77de-475e-be0d-51bd99114d99": {
+      "status": "completed"
+    },
+    "3215d5ed-6757-4c50-b277-ae3d7c120604": {
+      "status": "completed"
+    },
+    "c8558e2e-52fb-463b-9d8f-888dd6b7bff4": {
+      "status": "completed"
+    },
+    "79f49010-3d48-40eb-bb09-870fed8715b5": {
+      "status": "completed"
+    },
+    "b47c5fdd-dc62-464d-b87d-60ce5c932be5": {
+      "status": "completed"
+    }
+  }
+}
