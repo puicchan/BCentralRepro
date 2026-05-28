@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Tasks template for modernization plan. Generate this file alongside plan.md to track individual migration tasks.",
+  "tasks": [
+    {
+      "type": "transform",
+      "id": "001-transform-migration-mi-azure-sql",
+      "description": "Migrate ZavaPayGateway database authentication from password-based SQL Server to Azure Managed Identity for Azure SQL.",
+      "reason": "The application currently uses plaintext DB_USER and DB_PASSWORD credentials to connect to SQL Server. Replacing password-based auth with Managed Identity eliminates the need for hardcoded secrets and improves security posture on Azure.",
+      "requirements": "Replace password-based JDBC SQL Server authentication with Azure Managed Identity. Update PayGatewayConnectionFactory and PayGatewayConfig to remove DB_USER and DB_PASSWORD usage and use token-based authentication instead. Use Spring Cloud Azure or Azure Identity SDK for managed identity token acquisition. Ensure backward-compatible connection behavior and that the project builds and tests pass.",
+      "skills": [
+        {
+          "name": "migration-mi-azure-sql",
+          "location": "builtin"
+        }
+      ],
+      "successCriteria": {
+        "passBuild": "true",
+        "generateNewUnitTests": "false",
+        "passUnitTests": "true"
+      }
+    },
+    {
+      "type": "transform",
+      "id": "002-transform-migration-plaintext-credential-to-azure-keyvault",
+      "description": "Migrate hardcoded/plaintext credentials and sensitive configuration values in ZavaPayGateway to Azure Key Vault.",
+      "reason": "The application reads sensitive config values (DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD, SSO_COOKIE_NAME, AUTH_GATEWAY_WHOAMI_URL, LEDGER_URL) from environment variables or a properties file. Storing these in Azure Key Vault centralizes secret management and eliminates risk of credential exposure.",
+      "requirements": "Migrate all plaintext sensitive credentials (database credentials, SSO cookie name, auth gateway URL, ledger URL) from PayGatewayConfig.java to Azure Key Vault. Replace direct environment variable / properties file reads for secrets with Azure Key Vault SecretClient lookups. Use Managed Identity to authenticate to Key Vault. Ensure the project builds and all tests pass.",
+      "dependencies": [
+        "001-transform-migration-mi-azure-sql"
+      ],
+      "skills": [
+        {
+          "name": "migration-plaintext-credential-to-azure-keyvault",
+          "location": "builtin"
+        }
+      ],
+      "successCriteria": {
+        "passBuild": "true",
+        "generateNewUnitTests": "false",
+        "passUnitTests": "true"
+      }
+    },
+    {
+      "type": "transform",
+      "id": "003-transform-migration-log-to-console",
+      "description": "Migrate ZavaPayGateway logging to console-only output for cloud-native log collection on Azure.",
+      "reason": "Container workloads on Azure Container Apps use stdout/stderr for log aggregation. Ensuring all log output goes to the console avoids loss of logs in containerized environments.",
+      "requirements": "Update the application's logging configuration to remove any file appenders and route all log output to the console (stdout/stderr). This ensures compatibility with Azure Container Apps log collection. Ensure the project builds and tests pass.",
+      "dependencies": [
+        "001-transform-migration-mi-azure-sql"
+      ],
+      "skills": [
+        {
+          "name": "migration-log-to-console",
+          "location": "builtin"
+        }
+      ],
+      "successCriteria": {
+        "passBuild": "true",
+        "generateNewUnitTests": "false",
+        "passUnitTests": "true"
+      }
+    },
+    {
+      "type": "security",
+      "id": "004-security-cve-remediation",
+      "description": "Scan all project dependencies for known CVEs and remediate identified vulnerabilities before deployment.",
+      "reason": "The project uses legacy dependencies including Apache Struts 1.3.10 and Java 8 which may contain known security vulnerabilities. Scanning and remediating CVEs ensures the application is secure before being deployed to Azure.",
+      "requirements": "Scan all Gradle dependencies for known CVEs. Upgrade vulnerable dependencies to the minimum patched version. If a CVE fix requires a major version upgrade, document the affected dependency, the current version, the upgraded major version, and the breaking change risk. Verify that the project builds and all tests pass after remediation.",
+      "dependencies": [
+        "002-transform-migration-plaintext-credential-to-azure-keyvault",
+        "003-transform-migration-log-to-console"
+      ],
+      "skills": [
+        {
+          "name": "validate-cves-and-fix",
+          "location": "builtin"
+        }
+      ],
+      "successCriteria": {
+        "passBuild": "true",
+        "generateNewUnitTests": "false",
+        "passUnitTests": "true"
+      }
+    },
+    {
+      "type": "deployment",
+      "id": "005-deployment-azure-container-apps",
+      "description": "Containerize and deploy ZavaPayGateway to Azure Container Apps.",
+      "reason": "Deploying to Azure Container Apps provides a fully managed, serverless container hosting environment. The application already has a Dockerfile, so containerization is included as part of the deployment task.",
+      "requirements": "Use the existing Dockerfile (Tomcat 9 / WAR) to build and push the container image to Azure Container Registry. Provision a new Azure Container Apps environment and deploy the application. Configure Managed Identity on the Container App so it can authenticate to Azure SQL and Azure Key Vault without credentials. Use Bicep for infrastructure provisioning.",
+      "dependencies": [
+        "004-security-cve-remediation"
+      ],
+      "targetAzureService": "Azure Container Apps",
+      "resourceStatus": "Create new resources",
+      "deploymentTool": "bicep",
+      "skills": [
+        {
+          "name": "azcli-containerapp-deploy",
+          "location": "builtin"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "planName": "plan",
+    "projectName": "ZavaPayGateway",
+    "language": "java",
+    "createdAt": "2026-05-28T15:17:46.256-07:00",
+    "version": "1.0"
+  }
+}
