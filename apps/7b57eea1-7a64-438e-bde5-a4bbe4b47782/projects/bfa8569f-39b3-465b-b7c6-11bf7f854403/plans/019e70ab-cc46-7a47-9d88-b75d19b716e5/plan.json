@@ -1,0 +1,9 @@
+{
+  "name": "Rewrite payment gateway to spring boot",
+  "execution_mode": "local",
+  "status": "running",
+  "execution_goal": "Rewrite the zava payment gateway from Struts to Java 21 and latest springboot into another directory",
+  "use_rulebook": true,
+  "base_commit": "28b0f468918961dac8a27b3fe694c2e991e954a3",
+  "created_at": "2026-05-28T22:19:27.7643966\u002B00:00"
+}
