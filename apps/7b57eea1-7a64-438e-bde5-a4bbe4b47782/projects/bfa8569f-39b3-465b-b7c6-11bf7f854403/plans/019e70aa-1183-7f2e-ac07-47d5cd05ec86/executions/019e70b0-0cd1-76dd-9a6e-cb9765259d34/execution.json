@@ -1,0 +1,7 @@
+{
+  "name": "ZavaPayGateway plan execution",
+  "execution_mode": "local",
+  "status": "pending",
+  "base_commit": "d736befa37b0622c58fa2f0a538340d8f17801ea",
+  "started_at": "2026-05-28T22:24:06.4472547\u002B00:00"
+}
